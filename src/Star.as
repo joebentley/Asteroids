@@ -36,6 +36,7 @@ package {
         [Embed(source="../assets/pixel.png")] private const STAR:Class;
 
 
+        private var velocity:Vector2D = new Vector2D();
         private var speed:int;
 
         private var image:Image = new Image(STAR);
@@ -60,7 +61,18 @@ package {
         private var frame:int = 0;
         override public function update():void {
             // Move down screen with constant speed
-            y += speed;
+            y += velocity.y;
+
+            // Push slightly left and right depending on Player velocity
+            var player:Array = new Array();
+            FP.world.getType("player", player);
+
+            // Push stars a little horizontally
+            velocity.x = -((player[0] as Player).velocity.x / 8) * image.scale;
+            x += velocity.x;
+
+            // Push stars a little vertically
+            velocity.y = speed + (((player[0] as Player).velocity.y / 20) * image.scale);
 
             // Twinkle distant stars every few frames
             if (image.scale == 1 && frame > FP.rand(5)) {

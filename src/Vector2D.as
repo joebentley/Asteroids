@@ -35,5 +35,18 @@ package {
             x = 0;
             y = 0;
         }
+
+        public function normalize():Number {
+            return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        }
+
+        public function unit():Vector2D {
+            var unitVector:Vector2D = new Vector2D();
+
+            unitVector.x = x / normalize();
+            unitVector.y = y / normalize();
+
+            return unitVector;
+        }
     }
 }

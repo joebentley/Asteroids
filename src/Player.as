@@ -44,8 +44,8 @@ package {
 
         private var acceleration:Number = 0.4;
         private var angle:Number = 0;
-        private var velocity:Vector2D;
         private var maxVelocity:Vector2D;
+        public var velocity:Vector2D;
 
         private var image:Image;
 
