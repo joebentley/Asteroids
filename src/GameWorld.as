@@ -42,6 +42,9 @@ package {
 
 
         private var frames:int = 0;
+
+        private var flashFrames:int = 0;
+
         override public function update():void {
             // Spawn enemies randomly
             if (frames > 200) {
@@ -68,10 +71,30 @@ package {
             }
 
 
-            frames++;
+
+            // Flash the screen to white and set the counter at 5
+            if (screenFlash && flashFrames == 0) {
+                FP.screen.color = 0xFFFFFF;
+                flashFrames = 5;
+            }
+
+            // Decrement flashFrames every frame
+            if (screenFlash) {
+                flashFrames--;
+            }
+
+            // Once at zero, unset screenflash and reset screen colour
+            if (flashFrames == 0) {
+                FP.screen.color = 0x000000;
+                screenFlash = false;
+            }
+
 
             super.update();
             starfield.update();
+
+
+            frames++;
         }
     }
 }

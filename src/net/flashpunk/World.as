@@ -18,6 +18,9 @@
 		 * Point used to determine drawing offset in the render loop.
 		 */
 		public var camera:Point = new Point;
+
+        // Should the screen flash?
+        public var screenFlash:Boolean = false;
 		
 		/**
 		 * Constructor.
@@ -1058,7 +1061,7 @@
 			else
 			{
 				// Remove this entity from the layer.
-				_renderFirst[e._layer] = e._renderNext
+				_renderFirst[e._layer] = e._renderNext;
 				if (!e._renderNext)
 				{
 					// Remove the layer from the layer list if this was the last entity.
@@ -1135,7 +1138,7 @@
 				if (y1 > y2) return squarePoints(x1, y1, (x2 + w2), (y2 + h2));
 				return squarePoints(x1, y1 + h1, x2 + w2, y2);
 			}
-			if (y1 > y2) return squarePoints(x1 + w1, y1, x2, y2 + h2)
+			if (y1 > y2) return squarePoints(x1 + w1, y1, x2, y2 + h2);
 			return squarePoints(x1 + w1, y1 + h1, x2, y2);
 		}
 		
@@ -1164,7 +1167,7 @@
 				if (py > ry) return squarePoints(px, py, rx + rw, ry + rh);
 				return squarePoints(px, py, rx + rw, ry);
 			}
-			if (py > ry) return squarePoints(px, py, rx, ry + rh)
+			if (py > ry) return squarePoints(px, py, rx, ry + rh);
 			return squarePoints(px, py, rx, ry);
 		}
 		

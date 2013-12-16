@@ -59,7 +59,11 @@ package {
                 FP.world.remove(this);
                 FP.world.remove(b);
                 sfxKill.play();
+
+                FP.world.screenFlash = true;
             }
+
+
 
             super.update();
         }
