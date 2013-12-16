@@ -26,14 +26,47 @@
  * Created by joe on 15/12/2013.
  */
 package {
+    import net.flashpunk.FP;
     import net.flashpunk.World;
 
     public class GameWorld extends World {
 
         public function GameWorld() {
+            // Spawn player and set up world
             add(new Player(100, 100));
+        }
 
-            add(new FollowingEnemy(700, 700));
+
+        private var frames:int = 0;
+        override public function update():void {
+            // Spawn enemies randomly
+            if (frames > 200) {
+                var choice:int = FP.rand(3);
+
+                trace(choice);
+
+                switch (choice) {
+                    case 0:
+                        add(new FollowingEnemy(-300, 200));
+                        break;
+                    case 1:
+                        add(new FollowingEnemy(200, -300));
+                        break;
+                    case 2:
+                        add(new FollowingEnemy(900, 200));
+                        break;
+                    case 4:
+                        add(new FollowingEnemy(200, 600));
+                        break;
+                }
+
+                frames = 0;
+            }
+
+
+            frames++;
+
+            super.update();
         }
     }
 }
