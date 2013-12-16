@@ -49,7 +49,6 @@ package {
 
         private var image:Image;
 
-        private var sfxThrust:Sfx;
         private var fader:SfxFader;
 
         private var sfxShot:Sfx;
@@ -71,7 +70,7 @@ package {
 
 
             // We use the SfxFader to fade to zero when finished thrusting
-            sfxThrust = new Sfx(SFX_THRUST);
+            var sfxThrust:Sfx = new Sfx(SFX_THRUST);
             fader = new SfxFader(sfxThrust);
             addTween(fader);
 
@@ -157,12 +156,12 @@ package {
             // Play boost sound on thrust press
             if (Input.pressed("Thrust")) {
                 // Fade to max volume
-                fader.fadeTo(1, 0.2);
+                fader.fadeTo(8, 0.2);
             }
             // Stop when not thrusting
             if (Input.released("Thrust")) {
                 // Fade to zero volume
-                fader.fadeTo(0, 1);
+                fader.fadeTo(0, 0.5);
             }
 
 
