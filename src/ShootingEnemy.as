@@ -26,43 +26,36 @@
  * Created by joe on 16/12/2013.
  */
 package {
-
-    import net.flashpunk.Entity;
     import net.flashpunk.FP;
-    import net.flashpunk.Sfx;
 
-    public class Enemy extends Entity {
-        [Embed(source="../assets/kill.mp3")] private const SFX_DEATH:Class;
+    public class ShootingEnemy extends FollowingEnemy {
 
 
-        private var sfxKill:Sfx;
+        public function ShootingEnemy(_x:int, _y:int) {
 
-
-        public function Enemy(_x:int, _y:int) {
-            // Set initial position
-            x = _x;
-            y = _y;
-
-
-            sfxKill = new Sfx(SFX_DEATH);
-
-
-            // Set up collision type
-            type = "enemy";
+            super(_x, _y);
         }
 
 
+        private var angle:Number;
+        private var frames:int = 0;
         override public function update():void {
-            // Check collision with bullets
-            var b:Entity = collide("bullet", x, y);
-            if (b && !( (b as Bullet).enemy)) {
-                FP.world.remove(this);
-                FP.world.remove(b);
-                sfxKill.play();
 
-                FP.world.screenFlash = true;
+            // Get player and move towards them
+            var player:Array = new Array();
+
+            FP.world.getType("player", player);
+
+            // Find angle between player and enemy
+            angle = Math.atan2(player[0].y - y, player[0].x - x);
+
+            // Shoot bullet towards player every few frames
+            if (frames > 50) {
+                FP.world.add(new Bullet(x, y, angle, true));
+                frames = 0;
             }
 
+            frames++;
 
             super.update();
         }

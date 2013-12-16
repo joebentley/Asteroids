@@ -38,7 +38,10 @@ package {
         private var angle:Number; // Direction to travel in
         private var speed:int = 10; // Speed of motion of the bullet
 
-        public function Bullet(_x:int, _y:int, _angle:Number) {
+        // True if enemy bullet
+        public var enemy:Boolean;
+
+        public function Bullet(_x:int, _y:int, _angle:Number, _enemy:Boolean) {
             // Set initial position
             x = _x;
             y = _y;
@@ -55,6 +58,8 @@ package {
             // Set up collision and center on object
             type = "bullet";
             setHitbox(image.scaledWidth, image.scaledHeight, image.scaledWidth/2, image.scaledHeight/2);
+
+            enemy = _enemy;
         }
 
         override public function update():void {

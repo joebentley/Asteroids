@@ -149,7 +149,7 @@ package {
             // Fire bullet
             if (Input.pressed("Shoot")) {
                 sfxShot.play();
-                FP.world.add(new Bullet(x, y, angle));
+                FP.world.add(new Bullet(x, y, angle, false));
             }
 
 
