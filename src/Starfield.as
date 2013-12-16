@@ -23,55 +23,44 @@
  */
 
 /**
- * Created by joe on 15/12/2013.
+ * Created by joe on 16/12/2013.
  */
 package {
     import net.flashpunk.FP;
-    import net.flashpunk.World;
 
-    public class GameWorld extends World {
+    public class Starfield {
 
-        public var starfield:Starfield;
+        public function Starfield() {
 
-        public function GameWorld() {
-            // Spawn player and set up world
-            add(new Player(100, 100));
-
-            starfield = new Starfield();
         }
 
+        private var frame:int = 0;
 
-        private var frames:int = 0;
-        override public function update():void {
-            // Spawn enemies randomly
-            if (frames > 200) {
-                var choice:int = FP.rand(3);
+        public function update():void {
 
-                trace(choice);
+            if (frame > 10) {
+                // Generate random number for scale (and speed), but bias for more smaller stars
+                var rand:Number = Math.random();
+                var scale:int;
 
-                switch (choice) {
-                    case 0:
-                        add(new FollowingEnemy(-300, 200));
-                        break;
-                    case 1:
-                        add(new FollowingEnemy(200, -300));
-                        break;
-                    case 2:
-                        add(new FollowingEnemy(900, 200));
-                        break;
-                    case 4:
-                        add(new FollowingEnemy(200, 600));
-                        break;
+                // More chance for smaller stars
+                if (rand < 0.7) {
+                    scale = 1;
+                } else if (rand < 0.9) {
+                    scale = 2;
+                } else {
+                    scale = 3;
                 }
 
-                frames = 0;
+                // Generate a star in random position, use scale for speed as
+                // we want distant stars to appear to travel slower and vice versa
+                FP.world.add(new Star(FP.rand(FP.screen.width), -100, scale, scale));
+
+                // Reset frame counter
+                frame = 0;
             }
 
-
-            frames++;
-
-            super.update();
-            starfield.update();
+            frame++;
         }
     }
 }

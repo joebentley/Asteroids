@@ -23,55 +23,58 @@
  */
 
 /**
- * Created by joe on 15/12/2013.
+ * Created by joe on 16/12/2013.
  */
 package {
+    import net.flashpunk.Entity;
     import net.flashpunk.FP;
-    import net.flashpunk.World;
+    import net.flashpunk.Graphic;
+    import net.flashpunk.Mask;
+    import net.flashpunk.graphics.Image;
 
-    public class GameWorld extends World {
+    public class Star extends Entity {
+        [Embed(source="../assets/pixel.png")] private const STAR:Class;
 
-        public var starfield:Starfield;
 
-        public function GameWorld() {
-            // Spawn player and set up world
-            add(new Player(100, 100));
+        private var speed:int;
 
-            starfield = new Starfield();
+        private var image:Image = new Image(STAR);
+
+        public function Star(_x:int, _y:int, _scale:int, _speed:int) {
+            // Set initial position
+            x = _x;
+            y = _y;
+
+
+            // Set up player graphic and scaling
+            image.scale = _scale;
+
+            graphic = image;
+
+            layer = 100;
+
+            speed = _speed;
         }
 
 
-        private var frames:int = 0;
+        private var frame:int = 0;
         override public function update():void {
-            // Spawn enemies randomly
-            if (frames > 200) {
-                var choice:int = FP.rand(3);
+            // Move down screen with constant speed
+            y += speed;
 
-                trace(choice);
+            // Twinkle distant stars every few frames
+            if (image.scale == 1 && frame > FP.rand(5)) {
+                image.color = FP.rand(0xFFFFFF);
 
-                switch (choice) {
-                    case 0:
-                        add(new FollowingEnemy(-300, 200));
-                        break;
-                    case 1:
-                        add(new FollowingEnemy(200, -300));
-                        break;
-                    case 2:
-                        add(new FollowingEnemy(900, 200));
-                        break;
-                    case 4:
-                        add(new FollowingEnemy(200, 600));
-                        break;
-                }
-
-                frames = 0;
+                frame = 0;
             }
 
+            // Remove when off screen
+            if (y > FP.screen.height) {
+                FP.world.remove(this);
+            }
 
-            frames++;
-
-            super.update();
-            starfield.update();
+            frame++;
         }
     }
 }
